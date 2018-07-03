@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>修改订阅条件</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <script>
+    (function () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var html = document.documentElement;
+        var windowWidth = html.clientWidth;
+        html.style.fontSize = windowWidth / 7.2 + 'px';
+      }, false);
+    })()
+  </script>
+  <link rel="stylesheet" type="text/css" href="./dist/css/mui.min.css">
+
+	<style type="text/css">
+    @font-face {
+      font-family: 'MyNewFont';   /*字体名称*/
+      src: url('mui.ttf');       /*字体源文件*/
+    }
+		*{
+			margin:0;
+			padding: 0;
+		}
+    body{
+      background-color: #fff;
+      font-size: 0.34rem;
+      padding-bottom: 1.2rem;
+    }
+    .fname{
+      width: 100%;
+      height: 1.25rem;
+      background-color: #fff;
+      border-bottom: 1px solid #d8d8d8;
+      line-height: 1.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .fname span{
+      font-size: 0.34rem;
+    }
+    .fname input{
+      height: 0.68rem;
+      width: 5.0rem;
+      border-radius: 0.1rem;
+      border:1px solid #d8d8d8;
+      background-color: #f6f6f6;
+      margin-bottom: 0;
+      margin-left: 0.15rem;
+      color: #949494;
+      font-size: 0.34rem;
+    }
+    .key{
+      padding: 0.25rem 0.2rem 0.25rem 0.2rem;
+    }
+    .key input{
+      font-size: 0.34rem;
+      color:#333333;
+
+    }
+    /*.key-sel{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+    }*/
+    .key-sel input,.kind-sel span,.way-sel span{    
+      height: 0.62rem;
+      width: 2.2rem;
+      border-radius: 0.08rem;
+      background-color: #f6f6f6;
+      margin: 0.2rem 0;
+      text-align: center;
+      line-height: 0.62rem;
+      font-size: 0.3rem;
+    }
+    /*.key-sel input{
+      float: left;
+    }*/
+    .kind-sel span,.way-sel span{
+      float: left;
+      width: 2rem;
+      border-radius: 0.3rem;
+      margin-right: 0.2rem;
+    }
+    .kind-sel .active,.way-sel .active{
+      border: 1px solid #ea302b;
+      background-color: #ffe2dd;
+      color: #ea302b;
+    }
+    .mui-table-view-cell.mui-collapse .mui-collapse-content{
+      padding: 0;
+    }
+    .mui-table-view-cell.mui-active{
+      background-color: #fff;
+    }
+    .ensure{
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 0.9rem;
+      width: 100%;
+      background-color: #ea302b;
+      color: #fff;
+      font-size: 0.32rem;
+      text-align: center;
+      line-height: 0.9rem;
+    }
+    .mui-input-row{
+      display: inline-block;
+    }
+    .mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+      font-size: 0.46rem;
+      line-height: 1.4;
+    }
+    .mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+      color: #ea302b;
+    }
+    .mui-checkbox.mui-left label, .mui-radio.mui-left label{
+      padding-left: 1rem;
+    }
+    .content li{
+      height: 0.8rem;
+      text-align: center;
+      line-height: 0.8rem;
+      font-size: 0.3rem;
+      color: #535353;
+    }
+    .area-scroller .active{
+      background-color: #fff;
+      color: #ea302b;
+    }
+    .area-scroller{
+      float:left;
+      width: 40%;
+      background-color: #eeeeee;
+      height: 5rem;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+    .city-scroller{
+      float: left;
+      width: 60%;
+      background-color: #fff;
+      border-top: 1px solid #eeeeee;
+      height: 5rem;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+    ul li{
+      list-style: none;
+    }
+    .city-scroller li{
+      box-sizing: border-box;
+      border-bottom: 1px solid #eeeeee;
+    }
+    .city-name{
+      width: 100%;
+    }
+    .city-scroller .city-name input{
+      right: 0.2rem;
+    }
+    .mui-checkbox input[type=checkbox]:before{
+      content: '\e442';
+    }
+    .tishi{
+      position: fixed;
+      padding: 0.2rem 0.2rem;
+      background-color: rgba(0,0,0,0.5); 
+      left: 50%;
+      transform: translateX(-50%);
+      top: 40%;
+      color: #fff;
+      border-radius: 0.08rem;
+      display: none;
+    }
+
+	</style>
+</head>
+<body>
+  <div class="fname">
+    <span>跟踪器名称</span>
+    <input type="text" value="跟踪器名称">
+  </div>
+  <div class="key">
+    <span>关键词</span>
+    <div class="key-sel">
+      <input type="text" placeholder="关键词">
+      <input type="text" placeholder="关键词">
+      <input type="text" placeholder="关键词">
+      <input type="text" placeholder="关键词">
+      <input type="text" placeholder="关键词">
+      <input type="text" placeholder="关键词">
+    </div>
+  </div>
+   <ul class="mui-table-view"> 
+        <li class="mui-table-view-cell mui-collapse">
+            <a class="mui-navigate-right" href="#">地区</a>
+            <div class="mui-collapse-content">
+              <div class="area-selector">
+                <div class="content">
+                  <div class="area-scroller">
+                    <ul>
+                      <li><div class="area-name active">全国</div></li>
+                      <li><div class="area-name">安徽</div></li>
+                      <li><div class="area-name">北京</div></li>
+                      <li><div class="area-name">福建</div></li>
+                    </ul>
+                  </div>
+                  <div class="city-scroller">
+                    <ul>
+                      <!-- <li idp = "">
+                        <div class="mui-input-row mui-checkbox city-name">
+                          <label>全国</label>
+                          <input name="checkbox1" value="Item 1" type="checkbox" id="0">
+                        </div>
+                      </li> -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="#">信息类型</a>
+            <div class="mui-collapse-content">
+              <div class="kind-sel">
+                <span>招标公告</span>
+                <span class="active">招标预告</span>
+                <span>招标公告</span>
+                <span>招标公告</span>
+                <span>招标预告</span>
+              </div>  
+            </div>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="#">关键词包含于</a>
+            <div class="mui-collapse-content">
+              <div class="mui-input-row mui-radio mui-left">
+                <label>全文</label>
+                <input name="keyof" type="radio">
+              </div> 
+              <div class="mui-input-row mui-radio mui-left">
+                <label>标题</label>
+                <input name="keyof" type="radio" checked="checked">
+              </div> 
+            </div>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="#">搜索模式</a>
+            <div class="mui-collapse-content">
+              <div class="mui-input-row mui-radio mui-left">
+                <label>模糊</label>
+                <input name="mode" type="radio">
+              </div> 
+              <div class="mui-input-row mui-radio mui-left">
+                <label>精准</label>
+                <input name="mode" type="radio" checked="checked">
+              </div> 
+            </div>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="#">订阅方式</a>
+            <div class="mui-collapse-content">
+              <div class="way-sel">
+                <span class="active">邮件订阅</span>
+                <span class="active">短信订阅</span>
+              </div>
+            </div>
+        </li>
+    </ul>
+    <div class="ensure">确定</div>
+    <div class="tishi">请填写正确信息</div>
+<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="./dist/js/mui.min.js"></script>
+<script src="./js/select_arr.js"></script>
+<script type="text/javascript">
+   //fastclick
+  if ('addEventListener' in document) {  
+    document.addEventListener('DOMContentLoaded', function() {  
+        FastClick.attach(document.body);  
+    }, false);  
+  } 
+   // 生成省
+  // console.log(allArr);
+  var len = allArr.length;
+  var areaC = document.querySelector('.area-scroller ul');
+  var areastr = '';
+  for (var i = 0; i < len; i++) {
+    areastr += `<li idp='${allArr[i].checked}'}><div class="area-name">${allArr[i].areaName}</div></li>`
+  }
+  areaC.innerHTML = areastr;
+
+  //点击省出现相应的市
+  var cityC = document.querySelector('.city-scroller ul');
+  var areaItems = document.querySelectorAll('.area-scroller ul li');
+ 
+  for (var i = 0; i < areaItems.length; i++) {
+    areaItems[i].isall = false; //当前省是否全选
+    areaItems[i].num = i;//num  代表第几个
+    areaItems[i].onclick = function () {
+      var num = Number(this.num);
+      var hasCityArr = allArr[this.num].hasCity;
+      var citystr = '';
+      for (var i = 0; i < areaItems.length; i++) {
+        
+        if (areaItems[i].getAttribute('idp')==='') {
+          areaItems[i].classList.remove('active');
+        }    
+      }
+      this.classList.add('active');
+
+        
+        for (var i = 0; i < hasCityArr.length; i++) {
+        citystr += `<li>
+              <div class="mui-input-row mui-checkbox city-name">
+              <label>${hasCityArr[i].areaName}</label>
+              <input name="checkbox1" value="Item 1" type="checkbox" ${hasCityArr[i].checked} selfid=${num}>
+              </div>
+            </li>`;
+          }
+        cityC.innerHTML = citystr;
+        var items = document.querySelectorAll('.city-name input');
+        for (var j = 0; j < items.length; j++) {
+          items[j].index = j;//每个城市是当前省的第几个
+          
+
+          items[j].onclick = function () {
+            var Pflag = this.getAttribute('selfid');
+            /**
+            * 点击全国
+            */
+            // console.log(Pflag);
+            if (Pflag === "0") {
+              for (var i = 0; i < allArr.length; i++) {
+                allArr[i].checked = '';
+                
+                areaItems[i].setAttribute("idp","");
+                if (i!==0) {
+                  areaItems[i].classList.remove('active');
+                }
+                
+                var subcityList = allArr[i].hasCity;
+                for (var y = 0; y < subcityList.length; y++) {
+                  subcityList[y].checked = "";
+                  
+
+                }
+              }
+              console.log(allArr);
+            }else{
+              allArr[0].checked="";
+              allArr[0].hasCity[0].checked="";
+              areaItems[0].classList.remove("active");
+              areaItems[0].setAttribute("idp","");
+            }
+            if (this.index==0) { //点击当前城市列表第一个
+               if (!areaItems[Pflag].isall) {
+                  for (var n = 0; n < items.length; n++) {                 
+                        items[n].checked = 'checked';
+                        allArr[Pflag].hasCity[n].checked = 'checked';
+
+                        allArr[Pflag].showCity = allArr[Pflag].hasCity.length;
+
+                        //------重新对 idp 赋值---------
+                        if (allArr[Pflag].showCity>0) {
+                          allArr[Pflag].checked = "true";
+                        }else{
+                          allArr[Pflag].checked = "";
+                        }
+                        for (var k = 0; k < len; k++) {
+                          areaItems[k].setAttribute("idp",allArr[k].checked);
+                        } 
+                        //-------------结束------------                 
+                  }
+                  areaItems[Pflag].isall = !areaItems[Pflag].isall;
+                }else{
+
+                  for (var n = 0; n < items.length; n++) {              
+                        items[n].checked = '';
+                        allArr[Pflag].hasCity[n].checked = '';
+                  
+                        allArr[Pflag].showCity = 0;
+                         //------重新对 idp 赋值---------
+                        if (allArr[Pflag].showCity>0) {
+                          allArr[Pflag].checked = "true";
+                        }else{
+                          allArr[Pflag].checked = "";
+                        }
+                        for (var k = 0; k < len; k++) {
+                          areaItems[k].setAttribute("idp",allArr[k].checked);
+                        } 
+                        //-------------结束------------                 
+                  }
+                  areaItems[Pflag].isall = !areaItems[Pflag].isall;
+              } 
+            }else{
+                if (areaItems[Pflag].isall) {
+                  items[0].checked="";
+                  allArr[Pflag].hasCity[0].checked = '';
+                  areaItems[Pflag].isall = false;
+                  allArr[Pflag].showCity--;               
+                }
+                //----------------------------------------------------------------
+                var Pflag = this.getAttribute('selfid');  //pflag 省是当前列表第几个
+
+                if (allArr[Pflag].hasCity[this.index].checked=="") {
+                 allArr[Pflag].hasCity[this.index].checked = 'checked';
+                 // allArr[Pflag].checked = "true";
+                 allArr[Pflag].showCity++;
+                 // console.log(allArr[Pflag].showCity);
+                 // console.log(allArr[Pflag].hasCity.length);
+                 if (allArr[Pflag].showCity == allArr[Pflag].hasCity.length-1) {
+                   allArr[Pflag].hasCity[0].checked = "checked";
+                   items[0].checked="checked";
+                   allArr[Pflag].showCity = allArr[Pflag].hasCity.length;
+                 }
+                }else{
+                  allArr[Pflag].hasCity[this.index].checked = '';
+                  // allArr[Pflag].checked = "";
+
+                  if (allArr[Pflag].hasCity[0].checked=="checked") {
+                    
+                    allArr[Pflag].showCity--;
+                    // console.log(allArr[Pflag].showCity,"sss");
+                  }
+                  
+                  allArr[Pflag].hasCity[0].checked = "";
+                  items[0].checked="";
+                  allArr[Pflag].showCity--;
+                  // console.log(allArr[Pflag].showCity);
+                }
+                // console.log(allArr[Pflag].showCity);
+                if (allArr[Pflag].showCity>0) {
+                  allArr[Pflag].checked = "true";
+                }else{
+                  allArr[Pflag].checked = "";
+                }
+                // console.log(allArr[Pflag].checked);
+                for (var k = 0; k < len; k++) {
+                  areaItems[k].setAttribute("idp",allArr[k].checked);
+                }
+               //-------------------------------------------------------------------
+              }
+            }
+          
+        }
+    }
+  }
+
+ // 点击确定
+  var tishi = document.querySelector('.tishi');
+  var ensure = document.querySelector('.ensure');
+  var keyInput = document.querySelectorAll('.key-sel input');
+  var kinds = document.querySelectorAll('.kind-sel span');
+
+  ensure.onclick = function () {
+  	var keyCount = 0;
+  	var kindCount = 0;
+    var areaCount = 0;
+  	var keyArr = [];
+  	var kindArr = [];
+    // console.log(allArr,'all')
+    // console.log(allArr[0].hasCity,'全国')
+    // console.log(allArr[1].hasCity,'city')
+    // console.log(allArr[2].hasCity,'city')
+    // console.log(allArr,'ch')
+    for (var i = 0; i < keyInput.length; i++) {
+    	if (keyInput[i].value!=='') {
+    		keyCount++;
+    		keyArr.push(keyInput[i].value);
+    	} 	  	
+    }
+    if (keyCount == 0) {
+    		tishi.innerHTML = "请输入至少一个关键词";
+    		tishi.style.display = 'block';
+    		var Timer = setTimeout(function () {
+    			tishi.style.display = 'none'
+    		},2000);
+    }else{
+    	for (var i = 0; i < kinds.length; i++) {
+	    	if (kinds[i].className =='active') {
+	    		kindCount++;
+	    		kindArr.push(kinds[i].innerHTML);
+	    	} 	
+	    }
+	    if (kindCount == 0) {
+	    		tishi.innerHTML = "请选择信息类型";
+	    		tishi.style.display = 'block';
+	    		var Timer = setTimeout(function () {
+	    			tishi.style.display = 'none'
+	    		},2000);
+	    }else{
+	    	
+        for (var i = 0; i < allArr.length; i++) {
+          if (allArr[i].showCity !== 0) {
+            areaCount++;
+          }    
+        }
+        if (areaCount==0) {
+          tishi.innerHTML = "请选择地区";
+            tishi.style.display = 'block';
+            var Timer = setTimeout(function () {
+              tishi.style.display = 'none'
+        },2000);
+	    }else{
+        console.log(keyArr);
+        console.log(kindArr);
+        window.location.href = "./index.html";
+      }
+    }
+   } 
+  }
+  
+//点击span切换 
+  var spans = document.querySelectorAll('.kind-sel span');
+  for (var i = 0; i < spans.length; i++) {
+    spans[i].onclick = function () {
+      this.classList.toggle('active');
+    }
+  }  
+  var ways = document.querySelectorAll('.way-sel span');
+  for (var i = 0; i < ways.length; i++) {
+    ways[i].onclick = function () {
+      this.classList.toggle('active');
+    }
+  } 
+  function sibling( elem ) {
+    var r = [];
+    var n = elem.parentNode.firstChild;
+    for ( ; n; n = n.nextSibling ) {
+     if ( n.nodeType === 1 && n !== elem ) {
+      r.push( n );
+     }
+    }
+
+    return r;
+ }
+
+
+</script>
+</body>
+</html>
